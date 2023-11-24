@@ -4,8 +4,8 @@ import { useState } from 'react';
 const boardSize = 9;
 
 export type BoardState = {
-    squares: SquareState[];
-    blackIsNext: boolean;
+    readonly squares: SquareState[];
+    readonly blackIsNext: boolean;
 }
 
 type Point = {
@@ -14,7 +14,7 @@ type Point = {
 }
 
 export default function Board() {
-    const [state, setState] = useState({
+    const [state, setState] = useState<BoardState>({
         squares: Array<SquareState>(boardSize * boardSize).fill(null),
         blackIsNext: true
     });
