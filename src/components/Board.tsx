@@ -28,7 +28,7 @@ export default function Board() {
         if (state.squares[boardSize * point.y + point.x]) {
             return;
         }
-        const color: SquareState = state.blackIsNext ? '●' : '〇';
+        const color: SquareState = state.blackIsNext ? '●' : '○';
 
         const result = renewSquares(point, color, state.squares);
         if (result === null) {
@@ -81,8 +81,8 @@ function makeInitialSquares(): SquareState[] {
     const initSquares = Array<SquareState>(boardSize * boardSize).fill(null);
     const corePoint: Point = { x: boardSize / 2 - 1, y: boardSize / 2 - 1 };
     initSquares[boardSize * corePoint.y + corePoint.x] = '●';
-    initSquares[boardSize * corePoint.y + corePoint.x + 1] = '〇';
-    initSquares[boardSize * (corePoint.y + 1) + corePoint.x] = '〇';
+    initSquares[boardSize * corePoint.y + corePoint.x + 1] = '○';
+    initSquares[boardSize * (corePoint.y + 1) + corePoint.x] = '○';
     initSquares[boardSize * (corePoint.y + 1) + corePoint.x + 1] = '●';
     return initSquares;
 }
@@ -176,7 +176,7 @@ function reverseSquares(
         if (color === '●') {
             squares[boardSize * curPoint.y + curPoint.x] = '●';
         } else {
-            squares[boardSize * curPoint.y + curPoint.x] = '〇';
+            squares[boardSize * curPoint.y + curPoint.x] = '○';
         }
         curPoint.x += vec.x;
         curPoint.y += vec.y;

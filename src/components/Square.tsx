@@ -1,4 +1,4 @@
-export type SquareState = '〇' | '●' | null;
+export type SquareState = '○' | '●' | null;
 
 type SquareProps = {
     value: SquareState;
