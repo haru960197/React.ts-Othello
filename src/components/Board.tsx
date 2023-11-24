@@ -1,7 +1,7 @@
 import Square, { SquareState } from "./Square";
 import { useState } from 'react';
 
-const boardSize = 8;
+const boardSize = 8; // 盤面のサイズ（偶数）
 
 export type BoardState = {
     readonly squares: SquareState[];
@@ -15,7 +15,7 @@ type Point = {
 
 export default function Board() {
     const [state, setState] = useState<BoardState>({
-        squares: Array<SquareState>(boardSize * boardSize).fill(null),
+        squares: makeInitialSquares(),
         blackIsNext: true
     });
 
@@ -67,6 +67,19 @@ export default function Board() {
             {line(8)}
         </div>
     );
+}
+
+/**
+ * ゲーム開始時の盤面を生成する
+ */
+function makeInitialSquares(): SquareState[] {
+    const initSquares = Array<SquareState>(boardSize * boardSize).fill(null);
+    const corePoint: Point = { x: boardSize / 2 - 1, y: boardSize / 2 - 1 };
+    initSquares[boardSize * corePoint.y + corePoint.x] = '●';
+    initSquares[boardSize * corePoint.y + corePoint.x + 1] = '〇';
+    initSquares[boardSize * (corePoint.y + 1) + corePoint.x] = '〇';
+    initSquares[boardSize * (corePoint.y + 1) + corePoint.x + 1] = '●';
+    return initSquares;
 }
 
 /**
