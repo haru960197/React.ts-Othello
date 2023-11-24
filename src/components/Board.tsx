@@ -1,7 +1,7 @@
 import Square, { SquareState } from "./Square";
 import { useState } from 'react';
 
-const boardSize = 9;
+const boardSize = 8;
 
 export type BoardState = {
     readonly squares: SquareState[];
@@ -24,6 +24,10 @@ export default function Board() {
             x: index % boardSize,
             y: Math.floor(index / boardSize)
         };
+        // すでに石が置かれている場合は何もしない
+        if (state.squares[boardSize * point.y + point.x]) {
+            return;
+        }
         const color: SquareState = state.blackIsNext ? '●' : '〇';
 
         const newSquares = renewSquares(point, color, state.squares);
@@ -43,7 +47,7 @@ export default function Board() {
                     <Square
                         key={i}
                         value={square}
-                        onClick={() => handleClick(index * boardSize + i)}
+                        onClick={() => handleClick(i)}
                     />
                 );
             })}
@@ -66,7 +70,7 @@ export default function Board() {
 }
 
 /**
- * 反転処理を行った新たな盤面を返す
+ * 石が置かれ、反転処理を行った新たな盤面を返す
  * @param point 置かれた石の位置
  * @param color 置かれた石の色
  * @param squares 反転処理を行う盤面
@@ -77,6 +81,10 @@ function renewSquares(
     squares: SquareState[]
 ): SquareState[] {
     let newSquares = squares.slice();
+    // 石の置かれた位置を更新
+    newSquares[boardSize * point.y + point.x] = color;
+
+    // 探索方向
     const vecArray: Point[] = [
         { x:  0, y: -1 },
         { x: +1, y:  0 },
@@ -134,10 +142,12 @@ function reverseSquares(
     };
     while (squares[boardSize * curPoint.y + curPoint.x] !== color) {
         if (color === '●') {
-            squares[boardSize * curPoint.y + curPoint.x] = '〇';
-        } else {
             squares[boardSize * curPoint.y + curPoint.x] = '●';
+        } else {
+            squares[boardSize * curPoint.y + curPoint.x] = '〇';
         }
+        curPoint.x += vec.x;
+        curPoint.y += vec.y;
     }
     return squares;
 }
