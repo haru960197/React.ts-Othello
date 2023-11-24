@@ -30,7 +30,13 @@ export default function Board() {
         }
         const color: SquareState = state.blackIsNext ? '●' : '〇';
 
-        const newSquares = renewSquares(point, color, state.squares);
+        const result = renewSquares(point, color, state.squares);
+        if (result === null) {
+            // 石を置いても一つも反転がなかった
+            return;
+        }
+        const newSquares: SquareState[] = result!;
+
         setState((prev) => ({
             squares: newSquares,
             blackIsNext: !prev.blackIsNext
@@ -81,19 +87,23 @@ function makeInitialSquares(): SquareState[] {
 }
 
 /**
- * 石が置かれ、反転処理を行った新たな盤面を返す
+ * 石を置いて反転処理があった場合、更新後の新たな盤面を返す
  * @param point 置かれた石の位置
  * @param color 置かれた石の色
  * @param squares 反転処理を行う盤面
+ * @returns 反転あり：新たな盤面　反転なし：null
  */
 function renewSquares(
     point: Point,
     color: SquareState,
     squares: SquareState[]
-): SquareState[] {
+): SquareState[] | null {
     let newSquares = squares.slice();
     // 石の置かれた位置を更新
     newSquares[boardSize * point.y + point.x] = color;
+
+    // 反転があるか否かのフラグ
+    let isChanged: boolean = false;
 
     // 探索方向
     const vecArray: Point[] = [
@@ -121,17 +131,27 @@ function renewSquares(
                 // 石がなかったので、探索を終了
                 break;
             } else if (squares[curPoint.y * boardSize + curPoint.x] === color) {
-                // 最も近い同じ色の石が見つかったので、反対方向に反転処理を行う
+                // vec方向で最も近い同じ色の石が見つかった
+                if (i === 1) {
+                    // すぐ隣の石であるため、探索を終了
+                    break;
+                }
+
+                // 間に異なる色の石があるため、反対方向に反転処理を行う
                 const reverseVec = { x: -vec.x, y: -vec.y };
                 newSquares = reverseSquares(curPoint, color, reverseVec, newSquares);
+                // 反転があったのでフラグを更新
+                isChanged = true;
                 break;
             } else {
-                // 違う色の石が見つかったので、探索を継続
+                // 異なる色の石が見つかったので、探索を継続
                 continue;
             }
         }
     });
-    return newSquares;
+
+    // 更新があった場合のみ新たな盤面を返す
+    return (isChanged ? newSquares : null);
 }
 
 /**
