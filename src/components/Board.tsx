@@ -20,7 +20,10 @@ export default function Board() {
     });
 
     function handleClick(index: number): void {
-        const point: Point = { x: index % boardSize, y: index / boardSize };
+        const point: Point = {
+            x: index % boardSize,
+            y: Math.floor(index / boardSize)
+        };
         const color: SquareState = state.blackIsNext ? '●' : '〇';
 
         const newSquares = renewSquares(point, color, state.squares);
@@ -32,13 +35,18 @@ export default function Board() {
 
     const line = (index: number) => (
         <div className="board-row">
-            {state.squares.filter((_, i) => i / boardSize === index)
-                .map((square, i) => (
-                <Square
-                    key={i}
-                    value={square}
-                    onClick={() => handleClick(index * boardSize + i)} />
-            ))}
+            {state.squares.map((square, i) => {
+                if (Math.floor(i / boardSize) !== index) {
+                    return;
+                }        
+                return (
+                    <Square
+                        key={i}
+                        value={square}
+                        onClick={() => handleClick(index * boardSize + i)}
+                    />
+                );
+            })}
         </div>
     );
 
