@@ -35,6 +35,7 @@ export default function Board() {
             {state.squares.filter((_, i) => i / boardSize === index)
                 .map((square, i) => (
                 <Square
+                    key={i}
                     value={square}
                     onClick={() => handleClick(index * boardSize + i)} />
             ))}
