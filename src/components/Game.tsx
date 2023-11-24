@@ -96,6 +96,10 @@ export default function Game() {
                 }))}>
                     置けないのでパス
             </button>
+            <button
+                disabled={state.prevStep === null}
+                onClick={() => setState((prev) => ({ curStep: prev.prevStep!, prevStep: null }))}
+            >ひとつ前の状態に戻る</button>
         </div>
     );
 }
