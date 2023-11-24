@@ -37,34 +37,32 @@ export default function Board() {
         }));
     }
 
-    const line = (index: number) => (
-        <div className="board-row">
-            {state.squares.map((square, i) => {
-                if (Math.floor(i / boardSize) !== index) {
-                    return;
-                }        
-                return (
-                    <Square
-                        key={i}
-                        value={square}
-                        onClick={() => handleClick(i)}
-                    />
-                );
-            })}
-        </div>
-    );
+    const showSquares = (boardSize: number) => {
+        const lineNums = Array<number>(boardSize);
+        for (let i = 0; i < boardSize; i++) {
+            lineNums[i] = i;
+        }
+        return lineNums.map((lineNum: number) => (
+            <div key={`lineNum-${lineNum}`} className="board-row">
+                {state.squares.map((square, i) => {
+                    if (Math.floor(i / boardSize) !== lineNum) {
+                        return;
+                    }        
+                    return (
+                        <Square
+                            key={`${lineNum}-${i}`}
+                            value={square}
+                            onClick={() => handleClick(i)}
+                        />
+                    );
+                })}
+            </div>
+        ));
+    };
 
     return (
         <div>
-            {line(0)}
-            {line(1)}
-            {line(2)}
-            {line(3)}
-            {line(4)}
-            {line(5)}
-            {line(6)}
-            {line(7)}
-            {line(8)}
+            {showSquares(boardSize)}
         </div>
     );
 }
