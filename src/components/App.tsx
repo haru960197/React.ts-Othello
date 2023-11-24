@@ -2,7 +2,7 @@ import Game from "./Game";
 
 export default function App() {
   return (
-    <div>
+    <div className="app">
       <Game />
     </div>
   );
