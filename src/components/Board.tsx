@@ -69,6 +69,7 @@ export default function Board() {
     return (
         <div>
             {showSquares(boardSize)}
+            <p>{"Next is " + (state.blackIsNext ? '●' : '○')}</p>
         </div>
     );
 }
