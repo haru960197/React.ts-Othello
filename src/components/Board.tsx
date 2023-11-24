@@ -13,21 +13,30 @@ type Point = {
     y: number;
 }
 
+type MatchResult = '●' | '○' | 'x' | null;
+
 export default function Board() {
     const [state, setState] = useState<BoardState>({
         squares: makeInitialSquares(),
         blackIsNext: true
     });
+    const [blackNum, whiteNum] = countStones(state.squares);
+    const matchResult = calcMatchResult(blackNum, whiteNum);
 
     function handleClick(index: number): void {
         const point: Point = {
             x: index % boardSize,
             y: Math.floor(index / boardSize)
         };
-        // すでに石が置かれている場合は何もしない
-        if (state.squares[boardSize * point.y + point.x]) {
+
+       if (matchResult !== null) {
+            // 試合が終了している場合は何もしない
+            return;
+        } else if (state.squares[boardSize * point.y + point.x]) {
+            // すでに石が置かれている場合は何もしない
             return;
         }
+
         const color: SquareState = state.blackIsNext ? '●' : '○';
 
         const result = renewSquares(point, color, state.squares);
@@ -66,10 +75,25 @@ export default function Board() {
         ));
     };
 
+    const resultMessage = (result: MatchResult) => {
+        if (result === null) {
+            return "";
+        } else if (result === '●') {
+            return "●の勝ちです！";
+        } else if (result === 'x') {
+            return "○の勝ちです！";
+        } else {
+            return "引き分けです！";
+        }
+    };
+
     return (
         <div>
             {showSquares(boardSize)}
             <p>{"Next is " + (state.blackIsNext ? '●' : '○')}</p>
+            <p>{`●：${blackNum}`}</p>
+            <p>{`○：${whiteNum}`}</p>
+            <p>{resultMessage(matchResult)}</p>
         </div>
     );
 }
@@ -182,4 +206,39 @@ function reverseSquares(
         curPoint.y += vec.y;
     }
     return squares;
+}
+
+/**
+ * 盤面から双方の石の数をカウントする
+ * @param squares 現在の盤面
+ * @returns [黒の数, 白の数]
+ */
+function countStones(squares: SquareState[]): number[] {
+    let blackNum = 0, whiteNum = 0;
+    squares.forEach((square: SquareState) => {
+        if (square === '●') {
+            blackNum++;
+        } else if (square === '○') {
+            whiteNum++;
+        }
+    });
+    return [blackNum, whiteNum];
+}
+
+/**
+ * 石の数から試合の結果を算出
+ * @param blackNum 黒の数
+ * @param whiteNum 白の数
+ * @returns 試合の途中ならnull、引き分けなら'x'
+ */
+function calcMatchResult(blackNum: number, whiteNum: number): MatchResult {
+    if (blackNum === 0 || whiteNum === 0) {
+        return whiteNum === 0 ? '●' : '○';
+    } else if (blackNum + whiteNum < boardSize * boardSize) {
+        return null;
+    } else if (blackNum === whiteNum) {
+        return 'x';
+    } else {
+        return blackNum > whiteNum ? '●' : '○';
+    }
 }
