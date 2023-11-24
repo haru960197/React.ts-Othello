@@ -94,6 +94,10 @@ export default function Board() {
             <p>{`●：${blackNum}`}</p>
             <p>{`○：${whiteNum}`}</p>
             <p>{resultMessage(matchResult)}</p>
+            <button onClick={
+                () => setState((prev) => ({...prev, blackIsNext: !prev.blackIsNext}))}>
+                    置けないのでパス
+            </button>
         </div>
     );
 }
