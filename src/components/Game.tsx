@@ -1,5 +1,6 @@
 import { SquareState } from './Square';
 import Board from './Board';
+import BoardSizeRadio from './BoardSizeRadio';
 import { useState } from 'react';
 
 type Point = {
@@ -17,20 +18,20 @@ type Step = {
 type GameState = {
     curStep: Step;
     prevStep: Step | null;
+    boardSize: number;
 }
-
-const boardSize = 8; // 盤面のサイズ（偶数）
 
 export default function Game() {
     const [state, setState] = useState<GameState>({
         curStep: {
-            squares: makeInitialSquares(),
-            blackIsNext: true
+            squares: makeInitialSquares(8),
+            blackIsNext: true,
         },
-        prevStep: null
+        prevStep: null,
+        boardSize: 8
     });
     const [blackNum, whiteNum] = countStones(state.curStep.squares);
-    const matchResult = calcMatchResult(blackNum, whiteNum);
+    const matchResult = calcMatchResult(blackNum, whiteNum, state.boardSize);
     const resultMessage = (result: MatchResult) => {
         if (result === null) {
             return "";
@@ -45,14 +46,14 @@ export default function Game() {
 
     function handleClick(index: number): void {
         const point: Point = {
-            x: index % boardSize,
-            y: Math.floor(index / boardSize)
+            x: index % state.boardSize,
+            y: Math.floor(index / state.boardSize)
         };
 
        if (matchResult !== null) {
             // 試合が終了している場合は何もしない
             return;
-        } else if (state.curStep.squares[boardSize * point.y + point.x]) {
+        } else if (state.curStep.squares[state.boardSize * point.y + point.x]) {
             // すでに石が置かれている場合は何もしない
             return;
         }
@@ -67,6 +68,7 @@ export default function Game() {
         const newSquares: SquareState[] = result!;
 
         setState((prevState) => ({
+            ...prevState,
             curStep: {
                 squares: newSquares,
                 blackIsNext: !prevState.curStep.blackIsNext
@@ -75,12 +77,27 @@ export default function Game() {
         }));
     }
 
+    /**
+     * 盤面サイズのラジオボックスを制御
+     */
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const newBoardSize = Number((e.target as HTMLInputElement).value);
+        setState({
+            curStep: {
+                squares: makeInitialSquares(newBoardSize),
+                blackIsNext: true,
+            },
+            prevStep: null,
+            boardSize: newBoardSize
+        });
+    }
+
     return (
         <div>
             <Board
                 squares={state.curStep.squares}
                 onClick={handleClick}
-                boardSize={boardSize}
+                boardSize={state.boardSize}
             />
             <p>{"Next is " + (state.curStep.blackIsNext ? '●' : '○')}</p>
             <p>{`●：${blackNum}`}</p>
@@ -98,8 +115,10 @@ export default function Game() {
             </button>
             <button
                 disabled={state.prevStep === null}
-                onClick={() => setState((prev) => ({ curStep: prev.prevStep!, prevStep: null }))}
+                onClick={() => setState(
+                    (prev) => ({ ...prev, curStep: prev.prevStep!, prevStep: null }))}
             >ひとつ前の状態に戻る</button>
+            <BoardSizeRadio value={state.boardSize} onChange={handleChange} />
         </div>
     );
 }
@@ -107,7 +126,7 @@ export default function Game() {
 /**
  * ゲーム開始時の盤面を生成する
  */
-function makeInitialSquares(): SquareState[] {
+function makeInitialSquares(boardSize: number): SquareState[] {
     const initSquares = Array<SquareState>(boardSize * boardSize).fill(null);
     const corePoint: Point = { x: boardSize / 2 - 1, y: boardSize / 2 - 1 };
     initSquares[boardSize * corePoint.y + corePoint.x] = '●';
@@ -130,6 +149,7 @@ function renewSquares(
     squares: SquareState[]
 ): SquareState[] | null {
     let newSquares = squares.slice();
+    const boardSize = Math.sqrt(squares.length);
     // 石の置かれた位置を更新
     newSquares[boardSize * point.y + point.x] = color;
 
@@ -198,6 +218,7 @@ function reverseSquares(
     vec: Point,
     squares: SquareState[]
 ): SquareState[] {
+    const boardSize = Math.sqrt(squares.length);
     const curPoint: Point = {
         x: point.x + vec.x,
         y: point.y + vec.y
@@ -235,9 +256,11 @@ function countStones(squares: SquareState[]): number[] {
  * 石の数から試合の結果を算出
  * @param blackNum 黒の数
  * @param whiteNum 白の数
+ * @param boardSize 盤面のサイズ
  * @returns 試合の途中ならnull、引き分けなら'x'
  */
-function calcMatchResult(blackNum: number, whiteNum: number): MatchResult {
+function calcMatchResult(
+    blackNum: number, whiteNum: number, boardSize: number): MatchResult {
     if (blackNum === 0 || whiteNum === 0) {
         return whiteNum === 0 ? '●' : '○';
     } else if (blackNum + whiteNum < boardSize * boardSize) {
