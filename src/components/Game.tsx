@@ -37,7 +37,7 @@ export default function Game() {
             return "";
         } else if (result === '●') {
             return "●の勝ちです！";
-        } else if (result === 'x') {
+        } else if (result === '○') {
             return "○の勝ちです！";
         } else {
             return "引き分けです！";
