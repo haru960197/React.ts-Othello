@@ -6,9 +6,10 @@ type SquareProps = {
 }
 
 export default function Square(props: SquareProps) {
+    const color = props.value === '○' ? "white" : "black"
     return (
-        <button className="square" onClick={props.onClick}>
-            {props.value}
+        <button className={color + "-square"} onClick={props.onClick}>
+            {props.value !== null ? '●' : null}
         </button>
     );
 }
