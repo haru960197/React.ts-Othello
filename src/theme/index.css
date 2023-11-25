@@ -1,6 +1,5 @@
 body {
-  background-color: #35353b;
-  color: #fff;
+  background-color: rgb(146, 189, 223);
 }
 
 .app {
@@ -9,11 +8,16 @@ body {
   padding: 20px;
 }
 
+.center-box {
+  display: flex;
+  justify-content: center;
+}
+
 .square {
   background: #fff;
   border: 1px solid #999;
   float: left;
-  font-size: 34px;
+  font-size: 40px;
   font-weight: bold;
   line-height: 34px;
   height: 34px;

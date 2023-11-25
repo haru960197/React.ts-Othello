@@ -94,11 +94,13 @@ export default function Game() {
 
     return (
         <div>
-            <Board
-                squares={state.curStep.squares}
-                onClick={handleClick}
-                boardSize={state.boardSize}
-            />
+            <div className='center-box'>
+                <Board
+                    squares={state.curStep.squares}
+                    onClick={handleClick}
+                    boardSize={state.boardSize}
+                />
+            </div>
             <p>{"Next is " + (state.curStep.blackIsNext ? '●' : '○')}</p>
             <p>{`●：${blackNum}`}</p>
             <p>{`○：${whiteNum}`}</p>
