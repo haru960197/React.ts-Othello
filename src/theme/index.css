@@ -43,6 +43,7 @@ p {
 .black-square {
   background: rgb(89, 192, 89);
   border: 1px solid rgb(68, 68, 68);
+  color: black;
   float: left;
   font-size: 45px;
   font-weight: bold;
@@ -97,8 +98,9 @@ p {
   .black-square {
     background: rgb(89, 192, 89);
     border: 1px solid rgb(68, 68, 68);
+    color: black;
     float: left;
-    font-size: 28px;
+    font-size: 18px;
     font-weight: bold;
     line-height: 20px;
     height: 20px;
@@ -114,7 +116,7 @@ p {
     border: 1px solid rgb(68, 68, 68);
     color: white;
     float: left;
-    font-size: 28px;
+    font-size: 18px;
     font-weight: bold;
     line-height: 20px;
     height: 20px;
