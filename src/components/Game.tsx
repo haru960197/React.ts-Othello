@@ -103,7 +103,7 @@ export default function Game() {
                     />
                 </div>
                 <div className='status'>
-                    <p>{"Next is " + (state.curStep.blackIsNext ? '●' : '○')}</p>
+                    <p className='underlined'>{"次は " + (state.curStep.blackIsNext ? '●' : '○')}</p>
                     <p>{`●：${blackNum}`}</p>
                     <p>{`○：${whiteNum}`}</p>
                     <p>{resultMessage(matchResult)}</p>

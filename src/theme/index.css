@@ -6,6 +6,11 @@ p {
   margin: 4px;
 }
 
+.underlined {
+  text-decoration: underline;
+  text-decoration-color: black;
+}
+
 .app {
   display: flex;
   justify-content: center;
