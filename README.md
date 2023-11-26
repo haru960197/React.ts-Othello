@@ -1,6 +1,6 @@
 # 概要
 
-![実際のサイトの画像]("https://github.com/haru960197/React.ts-Othello/assets/124692504/d6c0f612-436c-466b-9ecf-fce1708a1736)
+![実際のサイトの画像](https://github.com/haru960197/React.ts-Othello/assets/124692504/d6c0f612-436c-466b-9ecf-fce1708a1736)
 
 ブラウザで遊べるオセロゲーム。一つの画面を二人でタップ（またはクリック）して遊んでください。  
 レスポンシブデザインで、スマホでも遊べます。  
