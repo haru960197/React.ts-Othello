@@ -14,11 +14,11 @@ TypeScriptでReactを用いた開発の練習として作成した。
 	justify-content: center;
   ```
 　これは、`display: flex`で、コンテナの子要素がフレックスアイテムであることを指定し、  
-	`justify-content: center`で、フレックスアイテムの配置を指定している
+ `justify-content: center`で、フレックスアイテムの配置を指定している
 - 主軸方向（`flex-direction`で指定）でのアイテムの並びを指定するには、
   `justify-content`  
   交差軸方向での並びは、  
-	`align-items`で指定
+  `align-items`で指定
 
 ***
 
