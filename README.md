@@ -1,3 +1,27 @@
+# 概要
+
+ブラウザで遊べるオセロゲーム。一つの画面を二人でタップ（またはクリック）して遊んでください。
+TypeScriptでReactを用いた開発の練習として作成した。  
+また、UIコンポーネントライブラリは使わずにCSSを記述したことでCSSの学びが深まった。
+
+# 得られた技術的学び
+
+- 演算子(/)は小数点以下を切り捨てない→`Math.floor()` を使用
+- 関数の戻り値を`値 | null` としたとき、非nullアサーションを使えばよい。（過度な使用は危険）（使わなくてもnullかチェックしてれば大丈夫っぽい？）
+- CSSで、中央に表示したいときは、
+  ```
+	display: flex;
+	justify-content: center;
+  ```
+　これは、`display: flex`で、コンテナの子要素がフレックスアイテムであることを指定し、  
+	`justify-content: center`で、フレックスアイテムの配置を指定している
+- 主軸方向（`flex-direction`で指定）でのアイテムの並びを指定するには、
+  `justify-content`  
+  交差軸方向での並びは、  
+	`align-items`で指定
+
+***
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
