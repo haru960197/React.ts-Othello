@@ -2,14 +2,36 @@ body {
   background-color: rgb(146, 189, 223);
 }
 
+p {
+  margin: 4px;
+}
+
 .app {
   display: flex;
   justify-content: center;
   padding: 20px;
 }
 
-.center-box {
+.board-and-status {
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.board {
+  display: flex;
+  justify-content: center;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
   justify-content: center;
 }
 
@@ -55,6 +77,16 @@ body {
     display: flex;
     justify-content: center;
     padding: 8px;
+  }
+
+  .board-and-status {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .status {
+    display: flex;
+    flex-direction: row;
   }
 
   .black-square {

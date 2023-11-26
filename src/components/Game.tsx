@@ -94,32 +94,38 @@ export default function Game() {
 
     return (
         <div>
-            <div className='center-box'>
-                <Board
-                    squares={state.curStep.squares}
-                    onClick={handleClick}
-                    boardSize={state.boardSize}
-                />
+            <div className='board-and-status'>
+                <div className='board'>
+                    <Board
+                        squares={state.curStep.squares}
+                        onClick={handleClick}
+                        boardSize={state.boardSize}
+                    />
+                </div>
+                <div className='status'>
+                    <p>{"Next is " + (state.curStep.blackIsNext ? '●' : '○')}</p>
+                    <p>{`●：${blackNum}`}</p>
+                    <p>{`○：${whiteNum}`}</p>
+                    <p>{resultMessage(matchResult)}</p>
+                </div>
             </div>
-            <p>{"Next is " + (state.curStep.blackIsNext ? '●' : '○')}</p>
-            <p>{`●：${blackNum}`}</p>
-            <p>{`○：${whiteNum}`}</p>
-            <p>{resultMessage(matchResult)}</p>
-            <button onClick={
-                () => setState((prev) => ({
-                    ...prev,
-                    curStep: {
-                        ...prev.curStep,
-                        blackIsNext: !prev.curStep.blackIsNext
-                    }
-                }))}>
-                    置けないのでパス
-            </button>
-            <button
-                disabled={state.prevStep === null}
-                onClick={() => setState(
-                    (prev) => ({ ...prev, curStep: prev.prevStep!, prevStep: null }))}
-            >ひとつ前の状態に戻る</button>
+            <div className='buttons' >
+                <button onClick={
+                    () => setState((prev) => ({
+                        ...prev,
+                        curStep: {
+                            ...prev.curStep,
+                            blackIsNext: !prev.curStep.blackIsNext
+                        }
+                    }))}>
+                        置けないのでパス
+                </button>
+                <button
+                    disabled={state.prevStep === null}
+                    onClick={() => setState(
+                        (prev) => ({ ...prev, curStep: prev.prevStep!, prevStep: null }))}
+                >ひとつ前の状態に戻る</button>
+            </div>
             <BoardSizeRadio value={state.boardSize} onChange={handleChange} />
         </div>
     );
