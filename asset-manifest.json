@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/React.ts-Othello/static/css/main.4e2eb32a.css",
+    "main.css": "/React.ts-Othello/static/css/main.acb22b78.css",
     "main.js": "/React.ts-Othello/static/js/main.3caf0c80.js",
     "static/js/787.30ec1b4d.chunk.js": "/React.ts-Othello/static/js/787.30ec1b4d.chunk.js",
     "index.html": "/React.ts-Othello/index.html",
-    "main.4e2eb32a.css.map": "/React.ts-Othello/static/css/main.4e2eb32a.css.map",
+    "main.acb22b78.css.map": "/React.ts-Othello/static/css/main.acb22b78.css.map",
     "main.3caf0c80.js.map": "/React.ts-Othello/static/js/main.3caf0c80.js.map",
     "787.30ec1b4d.chunk.js.map": "/React.ts-Othello/static/js/787.30ec1b4d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4e2eb32a.css",
+    "static/css/main.acb22b78.css",
     "static/js/main.3caf0c80.js"
   ]
 }
